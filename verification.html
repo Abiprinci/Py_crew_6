@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Thiraikural – Aadhaar Verification</title>
+
+<style>
+body{
+    margin:0;
+    font-family:'Segoe UI',sans-serif;
+    background:linear-gradient(135deg,#ba1111,#2e1010,#fa4343);
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    min-height:100vh;
+    color:#fff;
+}
+.container{
+    background:rgba(20,0,5,0.9);
+    padding:32px;
+    border-radius:16px;
+    width:420px;
+    box-shadow:0 0 30px rgba(255,60,120,0.4);
+    border:1px solid rgba(255,80,130,0.25);
+}
+h2{
+    text-align:center;
+    margin-bottom:22px;
+    color:#ff4d88;
+    text-shadow:0 0 10px rgba(255,77,136,0.6);
+}
+label{
+    display:block;
+    margin-top:14px;
+    font-size:14px;
+    color:#ffd6e5;
+}
+input,textarea{
+    width:100%;
+    padding:11px;
+    margin-top:6px;
+    border-radius:10px;
+    border:none;
+    outline:none;
+    font-size:14px;
+    background:#2b000f;
+    color:#fff;
+    box-shadow:inset 0 0 6px rgba(255,70,120,0.35);
+}
+input::placeholder,textarea::placeholder{
+    color:#ffb3c6;
+}
+textarea{
+    resize:none;
+    height:65px;
+}
+.age-box{
+    margin-top:10px;
+    font-weight:bold;
+    color:#ff77aa;
+    text-shadow:0 0 6px rgba(255,119,170,0.7);
+}
+button{
+    width:100%;
+    padding:13px;
+    margin-top:18px;
+    border:none;
+    border-radius:12px;
+    font-size:15px;
+    font-weight:bold;
+    color:#fff;
+    cursor:pointer;
+    transition:.3s;
+}
+.verify-btn{
+    background:linear-gradient(135deg,#ff3366,#b3003b);
+    box-shadow:0 0 15px rgba(255,51,102,.6);
+}
+.verify-btn:hover{
+    transform:scale(1.03);
+}
+.continue-btn{
+    background:linear-gradient(135deg,#ff7aa8,#ff3366);
+    box-shadow:0 0 18px rgba(255,120,160,.7);
+}
+.continue-btn:disabled{
+    background:#444;
+    cursor:not-allowed;
+    box-shadow:none;
+}
+.success{
+    display:none;
+    margin-top:15px;
+    text-align:center;
+    font-weight:bold;
+    color:#00ffcc;
+    text-shadow:0 0 8px rgba(0,255,204,.8);
+}
+.note{
+    text-align:center;
+    margin-top:12px;
+    font-size:12px;
+    color:#ffb3c6;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+<h2>🔐 Aadhaar Verification</h2>
+
+<form id="aadhaarForm" onsubmit="goToHome(event)">
+    
+    <label>Aadhaar Number</label>
+    <input type="text" maxlength="12" placeholder="12-digit Aadhaar" required>
+
+    <label>First Name (as per Aadhaar)</label>
+    <input type="text" placeholder="First Name" required>
+
+    <label>Last Name (as per Aadhaar)</label>
+    <input type="text" placeholder="Last Name" required>
+
+    <label>Mobile Number (as per Aadhaar)</label>
+    <input type="tel" maxlength="10" placeholder="Mobile Number" required>
+
+    <label>Date of Birth</label>
+    <input type="date" id="dob" onchange="calculateAge()" required>
+
+    <div class="age-box" id="ageResult">Age: -</div>
+
+    <label>Address</label>
+    <textarea placeholder="Enter Address" required></textarea>
+
+    <label>PIN Code</label>
+    <input type="text" maxlength="6" placeholder="PIN Code" required>
+
+    <!-- VERIFY BUTTON -->
+    <button type="button" class="verify-btn" onclick="verifyDetails()">
+        Verify Aadhaar
+    </button>
+
+    <div class="success" id="successMsg">
+        ✔ Aadhaar Verified Successfully
+    </div>
+
+    <!-- CONTINUE BUTTON -->
+    <button type="submit" class="continue-btn" id="continueBtn" disabled>
+        Continue
+    </button>
+</form>
+
+<div class="note">
+    Your details are safe & encrypted 🔒
+</div>
+</div>
+
+<script>
+function calculateAge(){
+    const dob=document.getElementById("dob").value;
+    const ageResult=document.getElementById("ageResult");
+    if(!dob){
+        ageResult.innerText="Age: -";
+        return;
+    }
+    const birthDate=new Date(dob);
+    const today=new Date();
+    let age=today.getFullYear()-birthDate.getFullYear();
+    const m=today.getMonth()-birthDate.getMonth();
+    if(m<0||(m===0&&today.getDate()<birthDate.getDate())){
+        age--;
+    }
+    ageResult.innerText="Age: "+age+" years";
+}
+
+function verifyDetails(){
+    const form=document.getElementById("aadhaarForm");
+    if(!form.checkValidity()){
+        alert("Please fill all details correctly");
+        return;
+    }
+    document.getElementById("successMsg").style.display="block";
+    document.getElementById("continueBtn").disabled=false;
+}
+
+function goToHome(event){
+    event.preventDefault();  // stop form submit
+    window.location.href = "web.html"; // redirect
+}
+</script>
+
+</body>
+</html>
+
+
