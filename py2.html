@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Thiraikural | Cinematic Platform</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;800&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+
+<style>
+/* ... (Keeping your original CSS) ... */
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{
+  font-family:'Poppins',sans-serif;
+  background:#050505;
+  color:#fff;
+  overflow-x:hidden;
+}
+
+:root{
+  --red:#b30000;
+  --glass:rgba(255,255,255,0.08);
+}
+
+#fluid{
+  position:fixed;
+  inset:0;
+  pointer-events:none;
+  z-index:5;
+}
+
+#intro{
+  position:fixed;
+  inset:0;
+  z-index:10;
+  background:
+    radial-gradient(circle at top,rgba(255,80,140,0.25),#000 60%),
+    url("https://images.unsplash.com/flagged/photo-1551817958-d9d86fb29431")
+    center/cover no-repeat;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+  transition: opacity 0.8s ease;
+}
+
+#intro::after{
+  content:"";
+  position:absolute;
+  inset:0;
+  background:rgba(0,0,0,0.75);
+}
+
+.intro-content{
+  position:relative;
+  z-index:2;
+  animation:introReveal 2s ease forwards;
+  opacity:0;
+}
+
+.intro-content h1{
+  font-family:'Cinzel',serif;
+  font-size:clamp(3rem,7vw,6rem);
+  letter-spacing:0.3em;
+  margin-bottom:20px;
+  text-shadow:0 0 35px rgba(255,120,180,0.8);
+}
+
+.intro-btn{
+  padding:14px 45px;
+  border-radius:999px;
+  border:none;
+  cursor:pointer;
+  background:linear-gradient(135deg,#ff6fae,#ff2677);
+  color:#fff;
+  font-weight: bold;
+  box-shadow:0 0 35px rgba(255,80,140,0.7);
+  transition: transform 0.3s;
+}
+.intro-btn:hover{transform:scale(1.08);}
+
+@keyframes introReveal{
+  to{opacity:1;}
+}
+
+#site{display:none;}
+
+nav{
+  position:fixed;
+  top:0;left:0;width:100%;
+  background:rgba(0,0,0,0.6);
+  backdrop-filter:blur(12px);
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:15px 40px;
+  z-index:3;
+}
+nav h2{
+  color:var(--red);
+  font-family:'Cinzel',serif;
+}
+nav ul{
+  list-style:none;
+  display:flex;
+  gap:25px;
+}
+nav ul li a{
+  text-decoration:none;
+  color:#ddd;
+}
+
+header{
+  height:100vh;
+  background:
+    radial-gradient(circle at top,rgba(179,0,0,0.25),#000 60%),
+    url('https://images.unsplash.com/flagged/photo-1551817958-d9d86fb29431')
+    center/cover no-repeat;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  position:relative;
+}
+header::after{
+  content:"";
+  position:absolute;
+  inset:0;
+  background:rgba(0,0,0,0.75);
+}
+.hero{
+  position:relative;
+  z-index:2;
+  text-align:center;
+}
+.hero h1{
+  font-family:'Cinzel',serif;
+  font-size:4rem;
+}
+
+section{padding:90px 8%;}
+
+.films{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+  gap:30px;
+}
+.film-card{
+  background:var(--glass);
+  backdrop-filter:blur(15px);
+  border-radius:18px;
+  overflow:hidden;
+  border: 1px solid rgba(255,255,255,0.1);
+  transition: 0.3s;
+}
+.film-card:hover { transform: translateY(-10px); }
+
+.film-card img{
+  width:100%;
+  height:180px;
+  object-fit:cover;
+}
+.info{padding:18px;}
+.tag{
+  display:inline-block;
+  background:var(--red);
+  padding:4px 10px;
+  border-radius:20px;
+  font-size:11px;
+  margin-right:6px;
+  text-transform: uppercase;
+}
+
+/* UPLOAD SECTION STYLING */
+.upload-box{
+  max-width:500px;
+  margin:auto;
+  background:var(--glass);
+  padding:30px;
+  border-radius:18px;
+  backdrop-filter:blur(15px);
+  border: 1px solid rgba(255,255,255,0.1);
+}
+.upload-box input,
+.upload-box select {
+  width:100%;
+  padding:12px;
+  margin-bottom:15px;
+  border: 1px solid rgba(255,255,255,0.2);
+  border-radius:10px;
+  background: rgba(0,0,0,0.3);
+  color: #fff;
+}
+.upload-box label {
+    display: block;
+    font-size: 12px;
+    margin-bottom: 5px;
+    color: #ff6fae;
+}
+.upload-box button{
+  width:100%;
+  padding:14px;
+  background:linear-gradient(45deg,var(--red),#ff1a1a);
+  border:none;
+  color:#fff;
+  font-weight: 600;
+  border-radius:30px;
+  cursor:pointer;
+}
+
+footer{
+  background:#000;
+  text-align:center;
+  padding:30px;
+  color:#777;
+}
+</style>
+</head>
+
+<body>
+
+<canvas id="fluid"></canvas>
+
+<div id="intro">
+  <div class="intro-content">
+    <h1>THIRAIKURAL</h1>
+    <p>A luxury cinematic digital experience</p>
+    <button class="intro-btn" onclick="enterSite()">ENTER</button>
+  </div>
+</div>
+
+<div id="site">
+<nav>
+  <h2>THIRAIKURAL</h2>
+  <ul>
+    <li><a href="#home">Home</a></li>
+    <li><a href="#films">Films</a></li>
+    <li><a href="#upload">Upload</a></li>
+  </ul>
+</nav>
+
+<header id="home">
+  <div class="hero">
+    <h1>THIRAIKURAL</h1>
+    <p>A Cinematic Platform for Short Film Creators</p>
+    <a href="#films"><button class="btn" style="padding:14px 40px; background:linear-gradient(45deg,var(--red),#ff1a1a); border:none; color:#fff; border-radius:30px; cursor:pointer; margin-top:20px;">Explore Cinema</button></a>
+  </div>
+</header>
+
+<section id="films">
+  <h2>Featured Short Films</h2><br>
+  <div class="films" id="filmGrid">
+    <div class="film-card">
+      <img src="https://images.unsplash.com/photo-1485846234645-a62644f84728" alt="poster">
+      <div class="info">
+        <h3>Silent Echo</h3>
+        <span class="tag">Drama</span>
+        <span class="tag">Tamil</span>
+        <p>Duration: 12 min</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="upload">
+  <h2>Upload Your Short Film</h2><br>
+  <div class="upload-box">
+    <label>Film Poster</label>
+    <input type="file" id="filmPoster" accept="image/*">
+    
+    <input type="text" id="filmName" placeholder="Film Name">
+    
+    <select id="filmGenre">
+      <option value="">Select Genre</option>
+      <option>Drama</option>
+      <option>Thriller</option>
+      <option>Romance</option>
+      <option>Action</option>
+    </select>
+    
+    <select id="filmLanguage">
+      <option value="">Select Language</option>
+      <option>Tamil</option>
+      <option>English</option>
+      <option>Hindi</option>
+    </select>
+    
+    <input type="text" id="filmDuration" placeholder="Duration (eg: 15 min)">
+    
+    <button onclick="handleUpload()">Upload Film</button>
+  </div>
+</section>
+
+<footer>
+  ©️ 2026 Thiraikural | Cinematic Short Film Platform
+</footer>
+</div>
+
+<script>
+function enterSite(){
+  document.getElementById("intro").style.opacity="0";
+  setTimeout(()=>{
+    document.getElementById("intro").style.display="none";
+    document.getElementById("site").style.display="block";
+    document.body.style.overflowY="auto";
+  },800);
+}
+
+// WORKING UPLOAD LOGIC
+function handleUpload() {
+    const name = document.getElementById('filmName').value;
+    const genre = document.getElementById('filmGenre').value;
+    const lang = document.getElementById('filmLanguage').value;
+    const duration = document.getElementById('filmDuration').value;
+    const posterInput = document.getElementById('filmPoster');
+
+    if(!name || !genre || !lang || !posterInput.files[0]) {
+        alert("Please fill all fields and select a poster!");
+        return;
+    }
+
+    // Convert the uploaded image to a local URL
+    const posterUrl = URL.createObjectURL(posterInput.files[0]);
+
+    // Create the HTML structure for the new film
+    const filmGrid = document.getElementById('filmGrid');
+    const newCard = document.createElement('div');
+    newCard.className = 'film-card';
+    
+    newCard.innerHTML = `
+      <img src="${posterUrl}" alt="poster">
+      <div class="info">
+        <h3>${name}</h3>
+        <span class="tag">${genre}</span>
+        <span class="tag">${lang}</span>
+        <p>Duration: ${duration}</p>
+      </div>
+    `;
+
+    // Add to the top of the list
+    filmGrid.prepend(newCard);
+
+    // Clear the form
+    document.getElementById('filmName').value = "";
+    document.getElementById('filmDuration').value = "";
+    document.getElementById('filmPoster').value = "";
+    
+    // Smooth scroll to see the new film
+    window.location.href = "#films";
+}
+
+/* FLUID CURSOR (Keeping your original logic) */
+const canvas=document.getElementById("fluid");
+const ctx=canvas.getContext("2d");
+canvas.width=window.innerWidth;
+canvas.height=window.innerHeight;
+
+let x=0,y=0;
+window.addEventListener("mousemove",e=>{
+  x=e.clientX;
+  y=e.clientY;
+});
+
+function animate(){
+  ctx.clearRect(0,0,canvas.width,canvas.height);
+  const g=ctx.createRadialGradient(x,y,0,x,y,60);
+  g.addColorStop(0,"rgba(255,120,180,0.4)");
+  g.addColorStop(1,"rgba(255,120,180,0)");
+  ctx.fillStyle=g;
+  ctx.beginPath();
+  ctx.arc(x,y,60,0,Math.PI*2);
+  ctx.fill();
+  requestAnimationFrame(animate);
+}
+animate();
+</script>
+
+</body>
+</html>
