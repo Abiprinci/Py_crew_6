@@ -1,0 +1,55 @@
+<link rel="stylesheet" href="style.css">
+<!DOCTYPE html>
+<html">
+<head>
+    <title>LOGIN</title>
+    <link rel="icon" href="key.png">
+</head>
+
+<body bgcolor="buttercream">
+    <center>
+        <span>
+            <div id="one">
+                
+                <h1>➡️       THIRAIKURAL  🏆</h1>
+                <hr>
+                <h3>📖 WHEERE TAMIL SHORT-FLIM TALENT MEETS OPPOURTUNITY 💪</h3>
+            </div>
+        
+            <div id="two">
+                 <h1 style="color: midnightblue;">LOGIN</h1>
+                 <hr>
+                 <form action="/submit_page.php" method="POST" class="large-form">
+                    <table>
+                        <tr>
+                            <td><h1>Name :</h1></td> <td> <h1><input type="text" placeholder="Enter Your Name"></h1> </td>
+                        </tr>
+
+                        <tr>
+                            <td><h1>Password :</h1></td> <td> <input type="password" placeholder=" Enter Your password"> </td>
+                        </tr>
+
+                        <tr>
+                            <td><h1>AADHAAR NO :</h1></td> <td> <input type="number" placeholder="Enter Your aadhaar number"> </td>
+                        </tr>
+
+                        <tr>
+                            <td> <input type="submit"></td> <td> <input type="reset"> </td>
+                        </tr>
+
+                    </table>
+                </form>
+            </div>
+        
+            <style>
+               .large-form {
+               width: 70%;
+               padding: 40px;
+               border: 1px solid #ccc;
+            }
+            </style>
+        </span>
+    </center>
+
+</body>
+</html>
